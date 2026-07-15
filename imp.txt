@@ -1,0 +1,21 @@
+# --------------------------
+# User Input
+# --------------------------
+
+# user_input = st.chat_input("Type your message...")
+
+# if user_input:
+
+#     with st.chat_message("user"):
+#         st.markdown(user_input)
+
+#     graph.invoke(
+#         {
+#             "messages": [
+#                 HumanMessage(content=user_input)
+#             ]
+#         },
+#         config=config
+#     )
+
+#     st.rerun()

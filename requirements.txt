@@ -1,0 +1,39 @@
+# ── Core: LangGraph + LangChain ─────────────────────────────
+langgraph
+langchain
+langchain-core
+langchain-community
+langgraph-checkpoint-sqlite
+
+# ── LLM providers ───────────────────────────────────────────
+# Groq (free-tier hosted models)
+langchain-groq
+# Ollama (local models)
+langchain-ollama
+# ollama            # optional: the Python client (langchain-ollama pulls its own deps)
+# langchain-anthropic
+# langchain-openai
+
+# ── RAG (add later as a tool) ───────────────────────────────
+# Embeddings + vector store
+langchain-chroma
+chromadb
+# FAISS vector store
+faiss-cpu
+
+# Document loading & splitting
+pypdf
+unstructured
+tiktoken
+
+# ── Config / utilities ──────────────────────────────────────
+python-dotenv
+pydantic
+
+# ── Optional: expose the chatbot over an API / UI ───────────
+# fastapi
+# uvicorn
+# streamlit
+
+# ── Optional: observability / debugging ─────────────────────
+# langsmith
