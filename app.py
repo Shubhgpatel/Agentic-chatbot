@@ -112,10 +112,25 @@ if snapshot.values:
 
     for msg in snapshot.values["messages"]:
 
-        role = "user" if msg.type == "human" else "assistant"
+        # Show user messages
+        if msg.type == "human":
 
-        with st.chat_message(role):
-            st.markdown(msg.content)
+            with st.chat_message("user"):
+                st.markdown(msg.content)
+
+        # Show only the final AI response
+        elif msg.type == "ai":
+
+            # Skip intermediate AI messages that contain tool calls
+            if getattr(msg, "tool_calls", None):
+                continue
+
+            with st.chat_message("assistant"):
+                st.markdown(msg.content)
+
+        # Skip ToolMessage completely
+        elif msg.type == "tool":
+            continue
 
 # --------------------------
 # User Input
@@ -125,43 +140,31 @@ user_input = st.chat_input("Type your message...")
 
 if user_input:
 
-    # Display user message immediately
     with st.chat_message("user"):
         st.markdown(user_input)
 
-    # Assistant message container
     with st.chat_message("assistant"):
 
-        placeholder = st.empty()
-
-        # Stream graph events
-        events = graph.stream(
-            {
-                "messages": [
-                    HumanMessage(content=user_input)
-                ]
-            },
-            config=config,
-            stream_mode="messages"
-        )
-
-        # assistant_response = ""
-
-        # for chunk, metadata in events:
-
-        #     if metadata["langgraph_node"] != "chatbot":
-        #         continue
-
-        #     if not chunk.content:
-        #         continue
-
-        #     assistant_response += chunk.content
-
-        #     placeholder.markdown(assistant_response)
         def token_generator():
-            for chunk, metadata in events:
-                if metadata["langgraph_node"] == "chatbot" and chunk.content:
-                    yield chunk.content
 
-        assistant_response = st.write_stream(token_generator())
+            for chunk, metadata in graph.stream(
+                {
+                    "messages": [
+                        HumanMessage(content=user_input)
+                    ]
+                },
+                config=config,
+                stream_mode="messages"
+            ):
+
+                if metadata.get("langgraph_node") != "chatbot":
+                    continue
+
+                if not chunk.content:
+                    continue
+
+                yield chunk.content
+
+        st.write_stream(token_generator())
+
     st.rerun()
