@@ -1,11 +1,10 @@
 [
-    "cc39e2dc-3be2-4a6d-8c46-32c010bfc555",
-    "60a94392-527c-4a37-b05d-67f8afc882b5",
-    "6d547bc3-834b-428f-a0eb-f01df10aecd7",
-    "b5f1b2bf-b1bc-4eae-a4e4-57714f90c95e",
-    "fe004216-2eaa-4f9d-a31c-fa4cf0045379",
-    "c1ac9c6c-d0a7-4237-9204-5a8736b7e47d",
-    "bd6006ab-9e76-4048-8efb-7ba96464bdc6",
-    "3e91618e-0e30-40fe-a6ff-27264af122ae",
-    "234f35d3-a189-41b5-b1d7-3cc069d782f9"
+    {
+        "id": "64693019-d676-42f5-9de0-983e0d3cad5a",
+        "name": "New Chat"
+    },
+    {
+        "id": "225ecc5a-cceb-498d-ac91-15cb7c81636c",
+        "name": "New Chat"
+    }
 ]
