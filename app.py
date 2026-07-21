@@ -7,6 +7,7 @@ from pathlib import Path
 
 import streamlit as st
 from chatbot_backend.graph import graph
+from chatbot_backend.tools import ingest_pdfs, indexed_pdfs
 from langchain_core.messages import HumanMessage
 
 # Anchor to the project root so the thread list is the same file regardless of cwd.
@@ -226,6 +227,36 @@ with st.sidebar:
             st.session_state.confirm_delete = tid
             st.session_state.renaming = None
             st.rerun()
+
+    # --- PDF knowledge (per-thread) ---
+    st.divider()
+    st.subheader("📄 PDFs for this chat")
+
+    # A thread-scoped key gives each chat its own uploader widget, so switching
+    # threads shows that thread's uploads rather than leaking across chats.
+    uploaded = st.file_uploader(
+        "Upload PDFs",
+        type="pdf",
+        accept_multiple_files=True,
+        key=f"uploader_{st.session_state.thread_id}",
+        label_visibility="collapsed",
+    )
+
+    if uploaded:
+        # Idempotent: ingest_pdfs skips files already indexed for this thread,
+        # so re-runs are cheap and re-uploads never duplicate the index.
+        with st.spinner("Indexing PDFs…"):
+            added = ingest_pdfs(st.session_state.thread_id, uploaded)
+        if added:
+            st.success("Indexed: " + ", ".join(added))
+
+    already_indexed = indexed_pdfs(st.session_state.thread_id)
+    if already_indexed:
+        st.caption("Searchable in this chat:")
+        for name in already_indexed:
+            st.caption(f"• {name}")
+    else:
+        st.caption("_No PDFs indexed yet._")
 
     # --- Agent Activity panel ---
     st.divider()

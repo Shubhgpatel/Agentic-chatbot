@@ -219,3 +219,6 @@ __marimo__/
 
 *.db
 
+
+# Per-thread PDF RAG indexes (regenerable data)
+faiss_indexes/

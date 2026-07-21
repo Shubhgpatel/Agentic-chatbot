@@ -15,11 +15,16 @@ langchain-ollama
 # langchain-openai
 
 # ── RAG (add later as a tool) ───────────────────────────────
-# Embeddings + vector store
+# Local embeddings — sentence-transformers pulls in torch (~110 MB wheel,
+# ~800 MB on disk). Drop both if you switch to a hosted embedding API.
+sentence-transformers
+langchain-huggingface
+
+# Vector stores
+# FAISS is the one currently in use; chroma is kept as an alternative.
+faiss-cpu
 langchain-chroma
 chromadb
-# FAISS vector store
-faiss-cpu
 
 # Document loading & splitting
 pypdf
@@ -30,10 +35,13 @@ tiktoken
 python-dotenv
 pydantic
 
-# ── Optional: expose the chatbot over an API / UI ───────────
+# ── UI ──────────────────────────────────────────────────────
+# Required: app.py is a Streamlit app.
+streamlit
+
+# ── Optional: expose the chatbot over an API ────────────────
 # fastapi
 # uvicorn
-# streamlit
 
 # ── Optional: observability / debugging ─────────────────────
 # langsmith
